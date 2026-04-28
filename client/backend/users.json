@@ -1,0 +1,67 @@
+[
+  {
+    "name": "abc",
+    "email": "abc@gmail.com",
+    "password": "Abc@1234"
+  },
+  {
+    "name": "abcd",
+    "email": "abcd@gmail.com",
+    "password": "Abcd@1234"
+  },
+  {
+    "name": "Raman",
+    "email": "raman@gmail.com",
+    "password": "Raman@123"
+  },
+  {
+    "name": "Meenu",
+    "email": "meenu@gmail.com",
+    "password": "Meenu@123"
+  },
+  {
+    "name": "pp",
+    "email": "pp@gmail.com",
+    "password": "Pp@12345"
+  },
+  {
+    "name": "aa",
+    "email": "aa@gmail.com",
+    "password": "Aa@123456"
+  },
+  {
+    "name": "Bb",
+    "email": "Bb@gmail.com",
+    "password": "Bb@123456"
+  },
+  {
+    "name": "cc",
+    "email": "cc@gmail.com",
+    "password": "Cc@123456"
+  },
+  {
+    "name": "dd",
+    "email": "dd@gmail.com",
+    "password": "Dd@12345"
+  },
+  {
+    "name": "ee",
+    "email": "ee@gmail.com",
+    "password": "Ee@12345"
+  },
+  {
+    "name": "Meenakshi ",
+    "email": "ee",
+    "password": "Ee@12345"
+  },
+  {
+    "name": "Meenakshi ",
+    "email": "mm@gmail.com",
+    "password": "Mm@12345"
+  },
+  {
+    "name": "kam",
+    "email": "kam@gmail.com",
+    "password": "Kam@1234"
+  }
+]
