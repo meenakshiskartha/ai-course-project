@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const SECRET = "mysecretkey"; 
 
-mongoose.connect("mongodb://admin_db_user:Admin123@ac-nxoklun-shard-00-00.5d8unzu.mongodb.net:27017,ac-nxoklun-shard-00-01.5d8unzu.mongodb.net:27017,ac-nxoklun-shard-00-02.5d8unzu.mongodb.net:27017/myapp?ssl=true&replicaSet=atlas-but3nx-shard-0&authSource=admin&retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://admin_db_user:Admin123@cluster0.5d8unzu.mongodb.net/myapp?appName=Cluster0")
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -200,6 +200,8 @@ app.get("/comment/:email", async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log("Server running");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });
