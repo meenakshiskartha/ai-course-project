@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -6,13 +7,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const SECRET = "mysecretkey"; 
-
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log("DB ERROR:", err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log("DB ERROR:", err));
 
 const app = express();
 app.use(cors({
@@ -74,18 +71,33 @@ app.post("/register", async (req, res) => {
 // ✅ LOGIN (uses stored users)
 app.post("/login", async (req, res) => {
   try {
+    console.log("LOGIN HIT"); // 👈 ADD THIS
+
     const { email, password } = req.body;
+
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
 
     const user = await User.findOne({ email });
 
+    console.log("USER FOUND:", user);
+
     if (!user) {
-      return res.json({ success: false });
+      return res.json({
+        success: false,
+        message: "Email or password is incorrect"
+      });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
+    console.log("MATCH:", isMatch);
+
     if (!isMatch) {
-      return res.json({ success: false });
+      return res.json({
+        success: false,
+        message: "Email or password is incorrect"
+      });
     }
 
     const token = jwt.sign(
@@ -101,8 +113,11 @@ app.post("/login", async (req, res) => {
     });
 
   } catch (err) {
-    console.log("LOGIN ERROR:", err); // 👈 VERY IMPORTANT
-    res.status(500).json({ success: false });
+    console.log("🔥 LOGIN ERROR:", err); // 👈 VERY IMPORTANT
+    res.status(500).json({
+      success: false,
+      message: "Server error"
+    });
   }
 });
 app.post("/purchase", async (req, res) => {
