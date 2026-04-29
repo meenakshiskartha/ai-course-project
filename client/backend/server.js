@@ -7,12 +7,17 @@ const jwt = require("jsonwebtoken");
 
 const SECRET = "mysecretkey"; 
 
-mongoose.connect("mongodb+srv://admin_db_user:Admin123@cluster0.5d8unzu.mongodb.net/myapp?appName=Cluster0")
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log("DB ERROR:", err));
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 
@@ -67,40 +72,37 @@ app.post("/register", async (req, res) => {
 });
 // ✅ LOGIN (uses stored users)
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const cleanEmail = email.trim();
-  const cleanPassword = password.trim();
+    const user = await User.findOne({ email });
 
-  const user = await User.findOne({ email: cleanEmail });
+    if (!user) {
+      return res.json({ success: false });
+    }
 
-  if (!user) {
-    return res.json({ success: false, message: "User not found" });
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.json({ success: false });
+    }
+
+    const token = jwt.sign(
+      { email: user.email },
+      SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user,
+    });
+
+  } catch (err) {
+    console.log("LOGIN ERROR:", err); // 👈 VERY IMPORTANT
+    res.status(500).json({ success: false });
   }
-
-  const isMatch = await bcrypt.compare(cleanPassword, user.password);
-
-  if (!isMatch) {
-    return res.json({ success: false, message: "Wrong password" });
-  }
-
-  // ✅ generate token
-  const token = jwt.sign(
-    { email: user.email },
-    SECRET,
-    { expiresIn: "1h" }
-  );
-
-  res.json({
-    success: true,
-    token,
-    user: {
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      paid: user.paid,
-    },
-  });
 });
 app.get("/admin/users", async (req, res) => {
   try {
