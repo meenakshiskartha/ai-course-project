@@ -70,6 +70,7 @@ app.post("/register", async (req, res) => {
     message: "Registered successfully",
   });
 });
+
 // ✅ LOGIN (uses stored users)
 app.post("/login", async (req, res) => {
   try {
@@ -102,18 +103,6 @@ app.post("/login", async (req, res) => {
   } catch (err) {
     console.log("LOGIN ERROR:", err); // 👈 VERY IMPORTANT
     res.status(500).json({ success: false });
-  }
-});
-app.get("/admin/users", async (req, res) => {
-  try {
-    const users = await User.find();
-
-    res.json({
-      success: true,
-      users,
-    });
-  } catch (err) {
-    res.json({ success: false });
   }
 });
 app.post("/purchase", async (req, res) => {
