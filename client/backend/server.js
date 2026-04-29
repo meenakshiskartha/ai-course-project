@@ -28,10 +28,11 @@ app.get("/dashboard", async (req, res) => {
     const revenue = paidUsers * 999;
 
     res.json({
-      users: totalUsers,
-      paidUsers,
-      revenue,
-    });
+  users,          // 👈 FULL USER LIST
+  totalUsers,
+  paidUsers,
+  revenue,
+});
 
   } catch (err) {
     res.json({ success: false });
