@@ -5,8 +5,7 @@ const mongoose = require("mongoose");
 const User = require("./models/User");
 const bcrypt = require("bcrypt"); 
 const jwt = require("jsonwebtoken");
-
-const SECRET = "mysecretkey"; 
+const SECRET = process.env.JWT_SECRET;
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log("DB ERROR:", err));

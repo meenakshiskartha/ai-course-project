@@ -51,7 +51,7 @@ const handleLogin = async () => {
     setLoading(true);
     setError("");
 
-    const res = await fetch("http://127.0.0.1:5000/login", {
+    const res = await fetch("https://ai-course-project.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,6 +62,8 @@ const handleLogin = async () => {
       }),
     });
 
+    console.log("RESPONSE STATUS:", res.status); // 👈 ADD THIS
+
     const data = await res.json();
     console.log("LOGIN DATA:", data);
 
@@ -69,26 +71,20 @@ const handleLogin = async () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("currentUser", JSON.stringify(data.user));
 
-      if (data.user.isAdmin) {
-        navigate("/dashboard");
-      } else if (data.user.paid) {
-        navigate("/course");
-      } else {
-        navigate("/purchase");
-      }
+      if (data.user.isAdmin) navigate("/dashboard");
+      else if (data.user.paid) navigate("/course");
+      else navigate("/purchase");
     } else {
       setError("Email or password is incorrect");
     }
 
   } catch (err) {
-    console.log(err);
+    console.log("ERROR:", err); // 👈 IMPORTANT
     setError("Server not responding");
   } finally {
     setLoading(false);
   }
 };
-
-
   return (
     <div
       onMouseMove={(e) => setPos({ x: e.clientX, y: e.clientY })}

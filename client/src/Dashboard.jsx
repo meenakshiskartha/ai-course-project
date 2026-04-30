@@ -14,7 +14,7 @@ function Dashboard() {
   }
 }, []);
 useEffect(() => {
-  fetch("http://localhost:5000/dashboard")
+  fetch("https://ai-course-project.onrender.com/dashboard")
     .then(res => res.json())
     .then(data => {
       setStats(data);
@@ -23,7 +23,7 @@ useEffect(() => {
 
 const [users, setUsers] = useState([]);
 useEffect(() => {
-  fetch("http://localhost:5000/admin/users")
+  fetch("https://ai-course-project.onrender.com/admin/users")
     .then(res => res.json())
     .then(data => {
       setUsers(data.users);
@@ -143,7 +143,7 @@ const filteredUsers = users.filter((u) => {
           <div className="p-6 bg-white/5 rounded-xl border border-white/10 backdrop-blur-xl hover:scale-105 transition">
             <h3 className="text-xl mb-2">Users</h3>
             <p className="text-gray-400">
-  {stats ? `${stats.users} Active Users` : "Loading..."}
+  {stats ? `${stats.totalUsers} Active Users` : "Loading..."}
 </p>
           </div>
 
