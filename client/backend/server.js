@@ -18,7 +18,7 @@ app.use(cors({
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Backend is running");
+  res.status(200).send("Server is running");
 });
 // ✅ dashboard
 app.get("/dashboard", async (req, res) => {
