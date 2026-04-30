@@ -17,7 +17,9 @@ app.use(cors({
 }));
 app.use(express.json());
 
-
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
 // ✅ dashboard
 app.get("/dashboard", async (req, res) => {
   try {
@@ -204,6 +206,25 @@ app.get("/comment/:email", async (req, res) => {
     });
   } catch {
     res.json({ comments: [] });
+  }
+});
+// ✅ GET ALL USERS (for dashboard table)
+app.get("/admin/users", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.json({
+      success: true,
+      users,
+    });
+
+  } catch (err) {
+    console.log("ERROR FETCHING USERS:", err);
+
+    res.json({
+      success: false,
+      users: [],
+    });
   }
 });
 
